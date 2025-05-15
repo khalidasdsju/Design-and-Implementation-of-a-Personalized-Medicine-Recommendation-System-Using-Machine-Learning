@@ -1,0 +1,2 @@
+# Design-and-Implementation-of-a-Personalized-Medicine-Recommendation-System-Using-Machine-Learning
+This project designs a personalized medicine recommendation system using machine learning. It analyzes patient data—including medical history and symptoms—to suggest optimal medications. The system aims to improve treatment accuracy, reduce side effects, and support healthcare professionals in making data-driven decisions.
