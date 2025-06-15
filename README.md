@@ -1,4 +1,4 @@
-# Personalized Medicine Recommendation System
+# Design and Implementation of a Personalized Medicine Recommendation System Using Machine Learning
 
 An AI-powered web application that predicts diseases based on symptoms and provides personalized treatment recommendations including medications, diet, precautions, and exercise routines.
 
