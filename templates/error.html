@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block title %}Error - Personalized Medicine System{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header bg-danger text-white">
+                <h4><i class="fas fa-exclamation-triangle"></i> System Error</h4>
+            </div>
+            <div class="card-body text-center">
+                <i class="fas fa-exclamation-circle fa-5x text-danger mb-4"></i>
+                <h3>Oops! Something went wrong</h3>
+                <p class="lead text-muted">{{ error }}</p>
+                
+                <div class="mt-4">
+                    <a href="/" class="btn btn-primary me-3">
+                        <i class="fas fa-home"></i> Go Home
+                    </a>
+                    <button class="btn btn-secondary" onclick="window.location.reload()">
+                        <i class="fas fa-redo"></i> Retry
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <h5><i class="fas fa-tools"></i> Troubleshooting Steps</h5>
+            </div>
+            <div class="card-body">
+                <ol>
+                    <li>Make sure the machine learning model has been trained by running <code>python train_model.py</code></li>
+                    <li>Check that all required CSV files are present in the <code>Datasets and Rename</code> folder</li>
+                    <li>Verify that all dependencies are installed by running <code>pip install -r requirements.txt</code></li>
+                    <li>If the problem persists, try restarting the application</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

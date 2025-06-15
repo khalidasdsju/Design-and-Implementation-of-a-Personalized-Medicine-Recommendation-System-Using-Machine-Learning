@@ -1,0 +1,163 @@
+{% extends "base.html" %}
+
+{% block title %}Disease Prediction - Personalized Medicine System{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <h4><i class="fas fa-clipboard-list"></i> Select Your Symptoms</h4>
+                <small>Choose all symptoms you are currently experiencing</small>
+            </div>
+            <div class="card-body">
+                <form method="POST" action="/predict" onsubmit="showLoading()">
+                    <!-- Search box for symptoms -->
+                    <div class="mb-4">
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="fas fa-search"></i></span>
+                            <input type="text" class="form-control" id="symptomSearch" 
+                                   placeholder="Search symptoms..." onkeyup="filterSymptoms()">
+                        </div>
+                        <small class="text-muted">Type to search through symptoms</small>
+                    </div>
+                    
+                    <!-- Symptom counter -->
+                    <div class="mb-3">
+                        <span class="badge bg-info" id="symptomCounter">Selected: 0 symptoms</span>
+                    </div>
+                    
+                    <!-- Symptoms grid -->
+                    <div class="row">
+                        {% for symptom in symptoms %}
+                        <div class="col-md-4 col-sm-6 symptom-checkbox">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" 
+                                       name="symptoms" value="{{ symptom }}" id="symptom_{{ loop.index }}">
+                                <label class="form-check-label" for="symptom_{{ loop.index }}">
+                                    {{ symptom.replace('_', ' ').title() }}
+                                </label>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    
+                    <!-- Loading animation -->
+                    <div class="loading">
+                        <div class="spinner-border" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                        <p class="mt-2">Analyzing symptoms and predicting disease...</p>
+                    </div>
+                    
+                    <!-- Submit button -->
+                    <div class="text-center mt-4">
+                        <button type="submit" class="btn btn-primary btn-lg">
+                            <i class="fas fa-diagnoses"></i> Get Diagnosis & Recommendations
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Quick selection buttons -->
+<div class="row mt-4">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <h5><i class="fas fa-bolt"></i> Quick Symptom Selection</h5>
+            </div>
+            <div class="card-body">
+                <div class="btn-group-vertical d-grid gap-2 d-md-block">
+                    <button type="button" class="btn btn-outline-primary btn-sm" onclick="selectCommonCold()">
+                        <i class="fas fa-thermometer-half"></i> Common Cold Symptoms
+                    </button>
+                    <button type="button" class="btn btn-outline-primary btn-sm" onclick="selectFlu()">
+                        <i class="fas fa-head-side-cough"></i> Flu Symptoms
+                    </button>
+                    <button type="button" class="btn btn-outline-primary btn-sm" onclick="selectDigestive()">
+                        <i class="fas fa-stomach"></i> Digestive Issues
+                    </button>
+                    <button type="button" class="btn btn-outline-secondary btn-sm" onclick="clearAll()">
+                        <i class="fas fa-eraser"></i> Clear All
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Information cards -->
+<div class="row mt-4">
+    <div class="col-md-4">
+        <div class="card text-center">
+            <div class="card-body">
+                <i class="fas fa-brain fa-3x text-primary mb-3"></i>
+                <h5>AI-Powered</h5>
+                <p class="text-muted">Advanced machine learning algorithms analyze your symptoms</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card text-center">
+            <div class="card-body">
+                <i class="fas fa-pills fa-3x text-success mb-3"></i>
+                <h5>Personalized</h5>
+                <p class="text-muted">Get customized medication and treatment recommendations</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card text-center">
+            <div class="card-body">
+                <i class="fas fa-shield-alt fa-3x text-warning mb-3"></i>
+                <h5>Comprehensive</h5>
+                <p class="text-muted">Includes diet, precautions, and workout recommendations</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // Quick selection functions
+    function selectCommonCold() {
+        clearAll();
+        const coldSymptoms = ['runny_nose', 'sneezing', 'cough', 'sore_throat', 'headache'];
+        selectSymptoms(coldSymptoms);
+    }
+    
+    function selectFlu() {
+        clearAll();
+        const fluSymptoms = ['fever', 'chills', 'muscle_aches', 'fatigue', 'headache', 'cough'];
+        selectSymptoms(fluSymptoms);
+    }
+    
+    function selectDigestive() {
+        clearAll();
+        const digestiveSymptoms = ['stomach_pain', 'nausea', 'vomiting', 'diarrhoea', 'loss_of_appetite'];
+        selectSymptoms(digestiveSymptoms);
+    }
+    
+    function selectSymptoms(symptomList) {
+        const checkboxes = document.querySelectorAll('input[name="symptoms"]');
+        checkboxes.forEach(checkbox => {
+            if (symptomList.includes(checkbox.value)) {
+                checkbox.checked = true;
+            }
+        });
+        updateSymptomCount();
+    }
+    
+    function clearAll() {
+        const checkboxes = document.querySelectorAll('input[name="symptoms"]');
+        checkboxes.forEach(checkbox => {
+            checkbox.checked = false;
+        });
+        updateSymptomCount();
+    }
+</script>
+{% endblock %}
